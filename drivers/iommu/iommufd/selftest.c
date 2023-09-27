@@ -455,11 +455,13 @@ static const struct iommu_ops mock_ops = {
 	 * because it is zero.
 	 */
 	.default_domain = &mock_blocking_domain,
+	.blocked_domain = &mock_blocking_domain,
 	.owner = THIS_MODULE,
 	.pgsize_bitmap = MOCK_IO_PAGE_SIZE,
 	.hw_info = mock_domain_hw_info,
 	.domain_alloc = mock_domain_alloc,
 	.domain_alloc_user = mock_domain_alloc_user,
+	.domain_alloc_paging = mock_domain_alloc_paging,
 	.capable = mock_domain_capable,
 	.device_group = generic_device_group,
 	.probe_device = mock_probe_device,
