@@ -404,7 +404,7 @@ static void arm_smmu_test_make_sva_cd(struct arm_smmu_cd *cd, unsigned int asid)
 		.pgd = (void *)0xdaedbeefdeadbeefULL,
 	};
 
-	arm_smmu_make_sva_cd(cd, &master, &mm, asid);
+	arm_smmu_make_sva_cd(cd, &master, &mm, asid, false);
 }
 
 static void arm_smmu_test_make_sva_release_cd(struct arm_smmu_cd *cd,
@@ -417,7 +417,7 @@ static void arm_smmu_test_make_sva_release_cd(struct arm_smmu_cd *cd,
 		.smmu = &smmu,
 	};
 
-	arm_smmu_make_sva_cd(cd, &master, NULL, asid);
+	arm_smmu_make_sva_cd(cd, &master, NULL, asid, false);
 }
 
 static void arm_smmu_v3_write_cd_test_sva_clear(struct kunit *test)
