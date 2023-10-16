@@ -1046,7 +1046,7 @@ static inline void kvm_init_host_cpu_context(struct kvm_cpu_context *cpu_ctxt)
 
 static inline bool kvm_system_needs_idmapped_vectors(void)
 {
-	return cpus_have_const_cap(ARM64_SPECTRE_V3A);
+	return cpus_have_final_cap(ARM64_SPECTRE_V3A);
 }
 
 void kvm_arm_vcpu_ptrauth_trap(struct kvm_vcpu *vcpu);
