@@ -817,6 +817,7 @@ static int lsm_msg_msg_alloc(struct msg_msg *mp)
  *
  * Returns 0, or -ENOMEM if memory can't be allocated.
  */
+__maybe_unused
 static int lsm_sock_alloc(struct sock *sock, gfp_t priority)
 {
 	if (blob_sizes.lbs_sock == 0) {
@@ -3574,9 +3575,11 @@ int security_task_kill(struct task_struct *p, struct kernel_siginfo *info,
 int security_task_prctl(int option, unsigned long arg2, unsigned long arg3,
 			unsigned long arg4, unsigned long arg5)
 {
+#if LSMBLOB_ENTRIES > 0
 	int *ilsm = current->security;
-	int thisrc;
 	int slot;
+#endif
+	int thisrc;
 	int rc = LSM_RET_DEFAULT(task_prctl);
 	struct security_hook_list *hp;
 
@@ -3592,6 +3595,7 @@ int security_task_prctl(int option, unsigned long arg2, unsigned long arg3,
 	if (lsm_slot == 0)
 		return rc;
 
+#if LSMBLOB_ENTRIES > 0
 	switch (option) {
 	case PR_LSM_ATTR_SET:
 		if (rc && rc != LSM_RET_DEFAULT(task_prctl))
@@ -3609,6 +3613,7 @@ int security_task_prctl(int option, unsigned long arg2, unsigned long arg3,
 			return lsm_slotlist[*ilsm]->id;
 		return lsm_slotlist[0]->id;
 	}
+#endif
 
 	return rc;
 }
