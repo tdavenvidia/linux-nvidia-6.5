@@ -571,6 +571,23 @@ out:
 	return rc;
 }
 
+struct mock_viommu {
+	struct iommufd_viommu core;
+};
+
+static struct iommufd_viommu *mock_viommu_alloc(struct device *dev,
+						unsigned int viommu_type,
+						struct iommu_domain *domain)
+{
+	struct mock_viommu *mv;
+
+	mv = iommufd_viommu_alloc(mock_viommu, core);
+	if (!mv)
+		return ERR_PTR(-ENOMEM);
+
+	return &mv->core;
+}
+
 static const struct iommu_ops mock_ops = {
 	/*
 	 * IOMMU_DOMAIN_BLOCKED cannot be returned from def_domain_type()
@@ -588,6 +605,7 @@ static const struct iommu_ops mock_ops = {
 	.device_group = generic_device_group,
 	.probe_device = mock_probe_device,
 	.dev_invalidate_user = mock_dev_invalidate_user,
+	.viommu_alloc = mock_viommu_alloc,
 	.default_domain_ops =
 		&(struct iommu_domain_ops){
 			.free = mock_domain_free,
