@@ -120,9 +120,9 @@ static u64 page_size_to_cd(void)
 	return ARM_LPAE_TCR_TG0_4K;
 }
 
-static void arm_smmu_make_sva_cd(struct arm_smmu_cd *target,
-				 struct arm_smmu_master *master,
-				 struct mm_struct *mm, u16 asid)
+void arm_smmu_make_sva_cd(struct arm_smmu_cd *target,
+			  struct arm_smmu_master *master, struct mm_struct *mm,
+			  u16 asid)
 {
 	u64 par;
 
