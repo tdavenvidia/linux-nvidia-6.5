@@ -503,9 +503,9 @@ static inline int __iommu_copy_struct_from_user_array(
  *           op is allocated in the iommu driver and freed by the caller after
  *           use. The information type is one of enum iommu_hw_info_type defined
  *           in include/uapi/linux/iommufd.h.
- * @domain_alloc: allocate iommu domain
- * @domain_alloc_paging: Allocate an iommu_domain that can be used for
- *                       UNMANAGED, DMA, and DMA_FQ domain types.
+ * @domain_alloc: allocate and return an iommu domain if success. Otherwise
+ *                NULL is returned. The domain is not fully initialized until
+ *                the caller iommu_domain_alloc() returns.
  * @domain_alloc_user: Allocate an iommu domain corresponding to the input
  *                     parameters as defined in include/uapi/linux/iommufd.h.
  *                     Unlike @domain_alloc, it is called only by IOMMUFD and
@@ -516,6 +516,8 @@ static inline int __iommu_copy_struct_from_user_array(
  *                     NULL while the @user_data can be optionally provided, the
  *                     new domain must support __IOMMU_DOMAIN_PAGING.
  *                     Upon failure, ERR_PTR must be returned.
+ * @domain_alloc_paging: Allocate an iommu_domain that can be used for
+ *                       UNMANAGED, DMA, and DMA_FQ domain types.
  * @probe_device: Add device to iommu driver handling
  * @release_device: Remove device from iommu driver handling
  * @probe_finalize: Do final setup work after the device is added to an IOMMU
@@ -552,10 +554,10 @@ struct iommu_ops {
 
 	/* Domain allocation and freeing by the iommu driver */
 	struct iommu_domain *(*domain_alloc)(unsigned iommu_domain_type);
-	struct iommu_domain *(*domain_alloc_paging)(struct device *dev);
 	struct iommu_domain *(*domain_alloc_user)(
 		struct device *dev, u32 flags, struct iommu_domain *parent,
 		const struct iommu_user_data *user_data);
+	struct iommu_domain *(*domain_alloc_paging)(struct device *dev);
 
 	struct iommu_device *(*probe_device)(struct device *dev);
 	void (*release_device)(struct device *dev);
