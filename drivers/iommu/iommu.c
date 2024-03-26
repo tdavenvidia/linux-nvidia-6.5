@@ -2017,11 +2017,15 @@ struct iommu_domain *iommu_domain_alloc(const struct bus_type *bus)
 {
 	const struct iommu_ops *ops = NULL;
 	int err = bus_for_each_dev(bus, NULL, &ops, __iommu_domain_alloc_dev);
+	struct iommu_domain *domain;
 
 	if (err || !ops)
 		return NULL;
 
-	return __iommu_domain_alloc(ops, NULL, IOMMU_DOMAIN_UNMANAGED);
+	domain = __iommu_domain_alloc(ops, NULL, IOMMU_DOMAIN_UNMANAGED);
+	if (IS_ERR(domain))
+		return NULL;
+	return domain;
 }
 EXPORT_SYMBOL_GPL(iommu_domain_alloc);
 
