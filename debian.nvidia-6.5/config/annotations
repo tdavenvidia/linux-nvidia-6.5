@@ -76,6 +76,7 @@ CONFIG_CORESIGHT_TPDM                           policy<{'arm64': 'n'}>
 CONFIG_CORESIGHT_TRBE                           policy<{'arm64': 'm'}>
 CONFIG_DEBUG_INFO_COMPRESSED_ZSTD               policy<{'amd64': '-', 'arm64': '-'}>
 CONFIG_ETM4X_IMPDEF_FEATURE                     policy<{'arm64': 'n'}>
+CONFIG_EFI_CAPSULE_LOADER                       policy<{'arm64': 'y'}>
 CONFIG_GCC_VERSION                              policy<{'amd64': '110400', 'arm64': '110400'}>
 CONFIG_GPIO_AAEON                               policy<{'amd64': '-'}>
 CONFIG_INIT_STACK_ALL_PATTERN                   policy<{'amd64': '-', 'arm64': '-'}>
